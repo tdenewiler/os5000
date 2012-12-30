@@ -1,0 +1,6 @@
+<launch>
+    <arg name="vcg_file" default="$(find os5000)/rviz/os5000.vcg"/>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg vcg_file)"/>
+    <!--node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"/-->
+</launch>

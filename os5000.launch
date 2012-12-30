@@ -1,0 +1,7 @@
+<launch>
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find os5000)/urdf/os5000.urdf.xacro'"/>
+    
+    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
+
+    <node pkg="os5000" type="os5000_node" name="os5000"/>
+</launch>

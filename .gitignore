@@ -3,3 +3,6 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 install_manifest.txt
+cfg/cpp
+docs
+src/os5000
