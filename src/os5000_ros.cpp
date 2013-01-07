@@ -19,6 +19,14 @@ void OSCompass::publishImuData(ros::Publisher *pub_imu_data)
     transform.header.frame_id = "odom";
     transform.child_frame_id = "base_link";
 
+    // Convert from NED to NWU in a simple way because no rates or accelerations are provided by this compass.
+    // Otherwise, a rotation matrix would be the way to go to keep everything consistent.
+    double tmp;
+    yaw *= -1.;
+    tmp = pitch;
+    pitch = roll;
+    roll = tmp;
+
     imudata.orientation = tf::createQuaternionMsgFromRollPitchYaw(roll * M_PI / 180., pitch * M_PI / 180., yaw * M_PI / 180.);
     
     imudata.orientation_covariance[0] = orientation_covariance;

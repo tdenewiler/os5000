@@ -6,12 +6,9 @@
        xmlns:xacro="http://ros.org/wiki/xacro"
 >
 
-    <xacro:property name="pcb_x_size"   value="0.0889"/>
-    <xacro:property name="pcb_y_size"   value="0.05715"/>
-    <xacro:property name="pcb_z_size"   value="0.0254"/>
-    <xacro:property name="pcb_x_offset" value="0.005"/>
-    <xacro:property name="pcb_y_offset" value="-0.09715"/>
-    <xacro:property name="pcb_z_offset" value="0.05715"/>
+    <xacro:property name="pcb_x_size"   value="0.0254"/>
+    <xacro:property name="pcb_y_size"   value="0.0254"/>
+    <xacro:property name="pcb_z_size"   value="0.0075"/>
 
     <link name="pcb">
         <inertial>
@@ -20,8 +17,9 @@
         </inertial>
     
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="3.14 0 3.14"/>
             <geometry>
+                <!--mesh filename="package://os5000/mesh/os5000.stl"/-->
                 <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size}"/>
             </geometry>
             <xacro:material_silver/>
@@ -30,6 +28,7 @@
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
+                <!--mesh filename="package://os5000/mesh/os5000.stl"/-->
                 <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size}"/>
             </geometry>
             <contact_coefficients mu="0.1" kp="1000.0" kd="1.0"/>
@@ -39,6 +38,6 @@
     <joint name="base_link_to_pcb" type="fixed">
         <parent link="base_link"/>
         <child link="pcb"/>
-        <origin xyz="${pcb_x_offset+pcb_x_size/2} ${pcb_y_offset+pcb_y_size/2} ${pcb_z_offset+pcb_z_size/2}" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 </robot>
