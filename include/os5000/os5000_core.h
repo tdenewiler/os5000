@@ -8,12 +8,27 @@
 #include <string.h>
 #include <unistd.h>
 
+// Serial includes.
+#include <fcntl.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+#include <string>
+#include <iostream>
+
 // ROS includes.
 #include <ros/ros.h>
+#include <ros/console.h>
+#include <ros/time.h>
+#include <sensor_msgs/Imu.h>
+#include <tf/transform_broadcaster.h>
+#include <tf/transform_datatypes.h>
 
 // Local includes.
-#include "os5000/serial.h"
 #include "os5000/timing.h"
+
+// Dynamic reconfigure.
+#include <dynamic_reconfigure/server.h>
+#include <os5000/os5000Config.h>
 
 /* Command Set Summary for the Ocean Server compass. */
 #ifndef OS5000_COMMANDS
@@ -43,7 +58,6 @@
 #ifndef OS5000_SERIAL_DELAY
 #define OS5000_SERIAL_DELAY 100000
 #endif // OS5000_SERIAL_DELAY
-//
 
 #ifndef OS5000_RESPONSE
 #define OS5000_RESPONSE_START  '$'
@@ -58,7 +72,31 @@
 #define OS5000_ERROR_VALID_MSG -4
 #endif // OS5000_ERROR_HEADER
 
-class Compass : public Serial
+/** @name Maximum number of serial ports to check for available data. */
+#ifndef SERIAL_MAX_PORTS
+#define SERIAL_MAX_PORTS 10
+#endif // SERIAL_MAX_PORTS
+
+/** @name Timeout in [s] to check for available serial ports. */
+#ifndef SERIAL_TIMEOUT_SECS
+#define SERIAL_TIMEOUT_SECS 0
+#endif // SERIAL_TIMEOUT_SECS
+
+/** @name Timeout in [us] to check for available serial ports. */
+#ifndef SERIAL_TIMEOUT_USECS
+#define SERIAL_TIMEOUT_USECS 1
+#endif // SERIAL_TIMEOUT_USECS
+
+/** @name The maximum amount of serial data that can be stored. */
+#ifndef SERIAL_MAX_DATA
+#define SERIAL_MAX_DATA 65535
+#endif // SERIAL_MAX_DATA
+
+#ifndef SERIAL_EXTRA_DELAY_LENGTH
+#define SERIAL_EXTRA_DELAY_LENGTH 40000
+#endif // SERIAL_EXTRA_DELAY_LENGTH
+
+class OS5000
 {
 public:
     //! Constructor.
@@ -66,10 +104,10 @@ public:
     //! \param _baud The baud rate that the compass is configured to communicate at.
     //! \param _rate The rate that the compass should be set up to send messages at.
     //! \param _initTime The amount of time to try establishing communications with the compass before timing out.
-    Compass(std::string _portname, int _baud, int _rate, int _initTime);
+    OS5000(std::string portname_, int baud_, int rate_, int init_time_);
 
     //! Destructor.
-    ~Compass();
+    ~OS5000();
 
     //! Establish communications with the compass.
     void setup();
@@ -92,50 +130,87 @@ public:
     //! Looks for valid data from the compass for a specified amount of time.
     void init();
 
-    //! Serial number of the compass.
-    int serial_number;
+    //! Return roll angle.
+    float getRoll();
 
-    //! Pitch angle in units of degrees, range of (-180,180].
-    float pitch;
+    //! Return pitch angle.
+    float getPitch();
 
-    //! Roll angle in units of degrees, range of (-180,180].
-    float roll;
+    //! Return yaw angle.
+    float getYaw();
 
-    //! Yaw angle in units of degrees, range of (-180,180].
-    float yaw;
+    //! Set yaw angle.
+    float setYaw(float difference);
 
-    //! Temperature as measured on the compass board in units of Fahrenheit. This is not a precise measurement but does
-    //! give a rough indication of the temperature.
-    float temperature;
-    
-    //! Depth in the form of pressure as measured from the pressure sensor and converted from analog
-    //! to digital through the compass.
-    float depth;
+    //! Return temperature.
+    float getTemperature();
 
-    //! The file descriptor used to communicate with the compass.
-    int fd;
+    //! Return whether we are connected to the compass.
+    bool isConnected();
 
-    //! The amount of time attempting to set up communications with the compass.
-    int init_time;
+    //! Create publisher.
+    void createPublisher(ros::NodeHandle *pnh);
 
-    //! The rate that the compass should send out data updates.
-    int rate;
+    //! Callback function for dynamic reconfigure server.
+    void configCallback(os5000::os5000Config &config, uint32_t level);
 
-    //! Pointer to a timer.
-    Timing *timer;
+    //! Publish the data from the compass in a ROS standard format.
+    void publishImuData();
 
 private:
-    //! Searches a buffer looking for the start and end sequences.
     void findMsg();
 
-    //! Parses a message for compass data.
     void parseMsg();
 
-    //! Whether the compass was initialized correctly.
+    void serialSetup();
+
+    void recv();
+
+    void send();
+
+    void getBytesAvailable();
+
     bool compass_initialized;
 
-    //! Whether a complete message was found after reading compass data.
     bool found_complete_message;
+
+    float pitch;
+
+    float roll;
+
+    float yaw;
+
+    float temperature;
+    
+    float depth;
+
+    int fd;
+
+    int init_time;
+
+    int rate;
+
+    Timing *timer;
+
+    std::string portname;
+
+    int baud;
+
+    int bytes_available;
+
+    int length_send;
+
+    int length_recv;
+
+    char *buf_send;
+
+    char buf_recv[SERIAL_MAX_DATA];
+
+    tf::TransformBroadcaster tf_broadcaster;
+
+    ros::Publisher pub_imu_data;
+
+    sensor_msgs::Imu imudata;
 };
 
 #endif // OS5000_CORE_H
