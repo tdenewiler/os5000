@@ -1,21 +1,27 @@
-cmake_minimum_required (VERSION 2.8.3)
-project (os5000)
+cmake_minimum_required (VERSION 2.4.6)
+include ($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
-find_package (catkin REQUIRED COMPONENTS dynamic_reconfigure message_generation rosconsole roscpp tf)
+# Initialize the ROS build system.
+rosbuild_init ()
 
-# Generate dynamic reconfigure files.
-generate_dynamic_reconfigure_options (cfg/os5000.cfg)
+# Set the default path for built executables to the "bin" directory.
+set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-# Specify additional locations of header files.
-include_directories (
-  include
-  cfg/cpp
-  ${catkin_INCLUDE_DIRS}
-)
+# Set the name to use for the executable.
+set (BINNAME os5000_node)
 
-# Declare a cpp executable.
+# Set the source files to use with the executable.
 set (SRCS ${SRCS} src/nodes/os5000_node.cpp)
 set (SRCS ${SRCS} src/os5000_core.cpp)
 set (SRCS ${SRCS} src/timing.cpp)
-add_executable (os5000_node ${SRCS})
-target_link_libraries (os5000_node ${catkin_LIBRARIES})
+
+# Set the directories where include files can be found.
+include_directories (include)
+
+# Build the executable that will be used to run this node.
+rosbuild_add_executable (${BINNAME} ${SRCS})
+
+# Add dynamic reconfigure API.
+rosbuild_find_ros_package (dynamic_reconfigure)
+include (${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
+gencfg ()
