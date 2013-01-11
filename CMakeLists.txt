@@ -13,7 +13,6 @@ set (BINNAME os5000_node)
 # Set the source files to use with the executable.
 set (SRCS ${SRCS} src/nodes/os5000_node.cpp)
 set (SRCS ${SRCS} src/os5000_core.cpp)
-set (SRCS ${SRCS} src/timing.cpp)
 
 # Set the directories where include files can be found.
 include_directories (include)

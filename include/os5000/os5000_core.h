@@ -23,9 +23,6 @@
 #include <tf/transform_broadcaster.h>
 #include <tf/transform_datatypes.h>
 
-// Local includes.
-#include "os5000/timing.h"
-
 // Dynamic reconfigure.
 #include <dynamic_reconfigure/server.h>
 #include <os5000/os5000Config.h>
@@ -190,8 +187,6 @@ private:
 
     int rate;
 
-    Timing *timer;
-
     std::string portname;
 
     int baud;
@@ -205,6 +200,8 @@ private:
     char *buf_send;
 
     char buf_recv[SERIAL_MAX_DATA];
+
+    ros::Time start_time;
 
     tf::TransformBroadcaster tf_broadcaster;
 
