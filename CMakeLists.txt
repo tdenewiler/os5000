@@ -16,6 +16,5 @@ include_directories (
 # Declare a cpp executable.
 set (SRCS ${SRCS} src/nodes/os5000_node.cpp)
 set (SRCS ${SRCS} src/os5000_core.cpp)
-set (SRCS ${SRCS} src/timing.cpp)
 add_executable (os5000_node ${SRCS})
 target_link_libraries (os5000_node ${catkin_LIBRARIES})

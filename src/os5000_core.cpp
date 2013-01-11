@@ -8,9 +8,7 @@ OS5000::OS5000(std::string portname_, int baud_, int rate_, int init_time_)
     portname  = portname_;
     rate      = rate_;
     bytes_available = 0;
-
-    // Start a new timer.
-    timer = new Timing(init_time);
+    start_time = ros::Time::now();
 
     // Set up the compass.
     setup();
@@ -52,8 +50,6 @@ OS5000::~OS5000()
     {
         close(fd);
     }
-
-    delete timer;
 }
 
 void OS5000::setup()
@@ -71,10 +67,10 @@ void OS5000::setup()
         setRate();
 
         // Initialize the timer.
-        timer->set();
+        start_time = ros::Time::now();
 
         // Check for valid compass data until the timer expires or valid data is found.
-        while (!timer->checkExpired())
+        while (ros::Time::now().toSec() - start_time.toSec() < init_time)
         {
             // Try to initialize the compass to make sure that we are actually getting valid data from it.
             init();
