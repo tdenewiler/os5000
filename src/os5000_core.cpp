@@ -12,10 +12,14 @@ OS5000::OS5000(std::string portname_, int baud_, int rate_, int init_time_)
 
     // Set up the compass.
     setup();
+    if (!isConnected())
+    {
+        ROS_ERROR("Could not connect to compass on port %s at %d baud. You can try changing the parameters using the dynamic reconfigure gui.", portname.c_str(), baud);
+    }
 
-    // Set up message data.
-    double linear_acceleration_covariance = 10000.;
-    double angular_velocity_covariance = 10000.;
+    // Set up message data. Using -1.0 on diagonal to indicate specific message field is invalid.
+    double linear_acceleration_covariance = -1.0;
+    double angular_velocity_covariance = -1.0;
     double orientation_covariance = 1.;
 
     imudata.orientation_covariance[0] = orientation_covariance;
@@ -126,6 +130,24 @@ void OS5000::getData()
             // Parse the message.
             parseMsg();
         }
+    }
+}
+
+void OS5000::timerCallback(const ros::TimerEvent& event)
+{
+    if (isConnected())
+    {
+        getData();
+
+        float current_yaw = getYaw();
+        if (current_yaw > 180.)
+        {
+            current_yaw -= 360.;
+            setYaw(current_yaw);
+        }
+
+        // Publish the message.
+        publishImuData();
     }
 }
 

@@ -109,23 +109,17 @@ public:
     //! Establish communications with the compass.
     void setup();
 
-    //! Get orientation data from compass.
-    void getData();
+    //! Callback function for timer that kicks off all the work.
+    void timerCallback(const ros::TimerEvent& event);
 
-    //! Set the rate at which messages are sent by the compass.
-    //! Valid rates are from 0 - 20. Any numbers outside that range will be shifted
-    //! into that range.
-    void setRate();
-    
-	//! Zero the depth pressure sensor. This would be at the surface for an
-	//! underwater device. It set’s zero based on the current ATM pressure.
-	void zeroDepth();
+    //! Callback function for dynamic reconfigure server.
+    void configCallback(os5000::os5000Config &config, uint32_t level);
 
-    //! Simulates compass data when no compass is available.
-    void simulateData();
+    //! Create publisher.
+    void createPublisher(ros::NodeHandle *pnh);
 
-    //! Looks for valid data from the compass for a specified amount of time.
-    void init();
+    //! Return whether we are connected to the compass.
+    bool isConnected();
 
     //! Return roll angle.
     float getRoll();
@@ -136,25 +130,31 @@ public:
     //! Return yaw angle.
     float getYaw();
 
-    //! Set yaw angle.
-    float setYaw(float difference);
-
     //! Return temperature.
     float getTemperature();
 
-    //! Return whether we are connected to the compass.
-    bool isConnected();
-
-    //! Create publisher.
-    void createPublisher(ros::NodeHandle *pnh);
-
-    //! Callback function for dynamic reconfigure server.
-    void configCallback(os5000::os5000Config &config, uint32_t level);
-
-    //! Publish the data from the compass in a ROS standard format.
-    void publishImuData();
+    //! Set yaw angle.
+    float setYaw(float difference);
 
 private:
+    void publishImuData();
+
+    //! Set the rate at which messages are sent by the compass.
+    //! Valid rates are from 0 - 20. Any numbers outside that range will be shifted
+    //! into that range.
+    void setRate();
+    
+	//! Zero the depth pressure sensor. This would be at the surface for an
+	//! underwater device. It set’s zero based on the current ATM pressure.
+	void zeroDepth();
+
+    void simulateData();
+
+    //! Looks for valid data from the compass for a specified amount of time.
+    void init();
+
+    void getData();
+
     void findMsg();
 
     void parseMsg();
