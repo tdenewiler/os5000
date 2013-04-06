@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 // Serial includes.
 #include <fcntl.h>
@@ -97,15 +98,13 @@ class OS5000
 {
 public:
     //! Constructor.
-    //! \param _portname The name of the port that the compass is connected to.
-    //! \param _baud The baud rate that the compass is configured to communicate at.
-    //! \param _rate The rate that the compass should be set up to send messages at.
-    //! \param _initTime The amount of time to try establishing communications with the compass before timing out.
-    OS5000(std::string portname_, int baud_, int rate_, int init_time_);
+    //! \param nh_ The node handle that topics and parameters are attached to.
+    OS5000(ros::NodeHandle nh_);
 
     //! Destructor.
     ~OS5000();
 
+private:
     //! Establish communications with the compass.
     void setup();
 
@@ -136,7 +135,6 @@ public:
     //! Set yaw angle.
     float setYaw(float difference);
 
-private:
     void publishImuData();
 
     //! Set the rate at which messages are sent by the compass.
@@ -167,47 +165,32 @@ private:
 
     void getBytesAvailable();
 
-    bool compass_initialized;
+    ros::Time start_time;
+    tf::TransformBroadcaster tf_broadcaster;
+    sensor_msgs::Imu imudata;
+    ros::Publisher pub_imu_data;
+    dynamic_reconfigure::Server<os5000::os5000Config> reconfig_srv;
+    dynamic_reconfigure::Server<os5000::os5000Config>::CallbackType f;
 
+    int init_time;
+    bool compass_initialized;
     bool found_complete_message;
 
+    int rate;
     float pitch;
-
     float roll;
-
     float yaw;
-
     float temperature;
-    
     float depth;
 
     int fd;
-
-    int init_time;
-
-    int rate;
-
     std::string portname;
-
     int baud;
-
     int bytes_available;
-
     int length_send;
-
     int length_recv;
-
     char *buf_send;
-
     char buf_recv[SERIAL_MAX_DATA];
-
-    ros::Time start_time;
-
-    tf::TransformBroadcaster tf_broadcaster;
-
-    ros::Publisher pub_imu_data;
-
-    sensor_msgs::Imu imudata;
 };
 
 #endif // OS5000_CORE_H
