@@ -55,6 +55,8 @@ OS5000::OS5000(ros::NodeHandle nh_)
     imudata.linear_acceleration_covariance[0] = linear_acceleration_covariance;
     imudata.linear_acceleration_covariance[4] = linear_acceleration_covariance;
     imudata.linear_acceleration_covariance[8] = linear_acceleration_covariance;
+
+    ros::spin();
 }
 
 OS5000::~OS5000()
