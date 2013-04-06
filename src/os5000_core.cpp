@@ -1,14 +1,28 @@
 #include "os5000/os5000_core.h"
 
-OS5000::OS5000(std::string portname_, int baud_, int rate_, int init_time_)
+OS5000::OS5000(ros::NodeHandle nh_)
 {
+    // Set up a dynamic reconfigure server.
+    f = boost::bind(&OS5000::configCallback, this, _1, _2);
+    reconfig_srv.setCallback(f);
+
+    // Initialize node parameters.
+    ros::NodeHandle pnh("~");
+    pnh.param("baud",      baud,      int(115200));
+    pnh.param("init_time", init_time, int(3));
+    pnh.param("port",      portname,  std::string("/dev/ttyUSB0"));
+    pnh.param("rate",      rate,      int(40));
+    if (rate <= 0)
+    {
+        rate = 1;
+    }
+
     // Initialize variables.
-    baud      = baud_;
-    init_time = init_time_;
-    portname  = portname_;
-    rate      = rate_;
     bytes_available = 0;
     start_time = ros::Time::now();
+
+    // Create a timer callback.
+    ros::Timer timer = nh_.createTimer(ros::Duration(1.0/rate), &OS5000::timerCallback, this);
 
     // Set up the compass.
     setup();
@@ -41,6 +55,8 @@ OS5000::OS5000(std::string portname_, int baud_, int rate_, int init_time_)
     imudata.linear_acceleration_covariance[0] = linear_acceleration_covariance;
     imudata.linear_acceleration_covariance[4] = linear_acceleration_covariance;
     imudata.linear_acceleration_covariance[8] = linear_acceleration_covariance;
+
+    ros::spin();
 }
 
 OS5000::~OS5000()
@@ -350,8 +366,6 @@ void OS5000::simulateData()
     yaw          = yaw   + rand() / (float)RAND_MAX;
     temperature  = 0     + rand() / (float)RAND_MAX;
     depth        = depth + rand() / (float)RAND_MAX;
-
-    return;
 }
 
 void OS5000::init()
@@ -481,7 +495,8 @@ void OS5000::serialSetup()
     fd = open(portname.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (fd < 1)
     {
-        perror("open");
+        ROS_ERROR("Failed to open port %s: %s", portname.c_str(), strerror(errno));
+        return;
     }
 
     // Get the current options for the port.
@@ -535,10 +550,11 @@ void OS5000::serialSetup()
         cfsetospeed(&options, B230400);
         break;
 
-    default: //Bad baud rate passed.
+    default: // Bad baud rate passed.
         close(fd);
         fd = -2;
-        fprintf(stderr, "OS5000::%s(). Bad baud rate passed.\n", __FUNCTION__);
+        ROS_ERROR("Bad baud rate passed.");
+        return;
     }
 
     // Set the number of data bits.
@@ -570,8 +586,9 @@ void OS5000::serialSetup()
     status = tcsetattr(fd, TCSANOW, &options);
     if (status != 0)
     {
-        fprintf(stderr, "%s(). Failed to set up options.\n", __FUNCTION__);
+        ROS_ERROR("Failed to set up serial port options");
         fd = -3;
+        return;
     }
 }
 
@@ -603,7 +620,7 @@ void OS5000::recv()
     bytes_recv = read(fd, buf_recv, length_recv);
     if (bytes_recv == -1)
     {
-        perror("read");
+        ROS_WARN("Could not read data from serial port: %s", strerror(errno));
     }
 }
 
@@ -617,7 +634,7 @@ void OS5000::send()
 
     if (bytes_sent < 0)
     {
-        perror("write");
+        ROS_WARN("Could not write data to serial port: %s", strerror(errno));
     }
 }
 
@@ -626,6 +643,6 @@ void OS5000::getBytesAvailable()
     // Get the number of bytes in the serial port buffer.
     if (ioctl(fd, FIONREAD, &bytes_available) == -1)
     {
-        perror("ioctl");
+        ROS_WARN("Could not get number of bytes available on serial port: %s", strerror(errno));
     }
 }
