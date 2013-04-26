@@ -24,6 +24,9 @@ OS5000::OS5000(ros::NodeHandle nh_)
     // Create a timer callback.
     ros::Timer timer = nh_.createTimer(ros::Duration(1.0/rate), &OS5000::timerCallback, this);
 
+    // Create a publisher.
+    createPublisher(&pnh);
+
     // Set up the compass.
     setup();
     if (!isConnected())
@@ -161,10 +164,17 @@ void OS5000::timerCallback(const ros::TimerEvent& event)
             current_yaw -= 360.;
             setYaw(current_yaw);
         }
-
-        // Publish the message.
-        publishImuData();
     }
+    else
+    {
+        // Simulate data.
+        roll = 0.0;
+        pitch = 0.0;
+        yaw = 0.0;
+    }
+
+    // Publish the message.
+    publishImuData();
 }
 
 void OS5000::setRate()
