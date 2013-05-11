@@ -1,53 +1,80 @@
-Background\ ColorB=0
-Background\ ColorG=0
-Background\ ColorR=0
-Camera\ Config=0.847794 1.8458 0.779883 0 -1.90735e-06 1.90735e-06
-Camera\ Type=rviz::OrbitViewController
-Fixed\ Frame=/odom
-Grid.Alpha=0.5
-Grid.Cell\ Size=1
-Grid.ColorB=0.5
-Grid.ColorG=0.5
-Grid.ColorR=0.5
-Grid.Enabled=1
-Grid.Line\ Style=0
-Grid.Line\ Width=0.03
-Grid.Normal\ Cell\ Count=0
-Grid.OffsetX=0
-Grid.OffsetY=0
-Grid.OffsetZ=0
-Grid.Plane=0
-Grid.Plane\ Cell\ Count=10
-Grid.Reference\ Frame=<Fixed Frame>
-Property\ Grid\ Splitter=679,78
-Property\ Grid\ State=expanded=.Global Options;splitterratio=0.5
-QMainWindow=000000ff00000000fd00000003000000000000011d00000347fc0200000001fb000000100044006900730070006c006100790073010000003600000347000000ee00ffffff000000010000013100000347fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000036000000d80000006700fffffffb0000000a0056006900650077007301000001140000018a000000bb00fffffffb0000001200530065006c0065006300740069006f006e01000002a4000000d90000006700ffffff00000003000005e10000003efc0100000001fb0000000800540069006d00650100000000000005e1000002bf00ffffff000003870000034700000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
-Robot\:\ RobotModel\ Link\ base_linkAlpha=1
-Robot\:\ RobotModel\ Link\ base_linkEnabled=1
-Robot\:\ RobotModel\ Link\ base_linkShow\ Axes=0
-Robot\:\ RobotModel\ Link\ base_linkShow\ Trail=0
-Robot\:\ RobotModel\ Link\ pcbAlpha=1
-Robot\:\ RobotModel\ Link\ pcbEnabled=1
-Robot\:\ RobotModel\ Link\ pcbShow\ Axes=0
-Robot\:\ RobotModel\ Link\ pcbShow\ Trail=0
-RobotModel.Alpha=1
-RobotModel.Collision\ Enabled=0
-RobotModel.Enabled=1
-RobotModel.Robot\ Description=robot_description
-RobotModel.TF\ Prefix=
-RobotModel.Update\ Interval=0
-RobotModel.Visual\ Enabled=1
-Target\ Frame=<Fixed Frame>
-Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
-Tool\ 2D\ Pose\ EstimateTopic=initialpose
-[Display0]
-ClassName=rviz::GridDisplay
-Name=Grid
-[Display1]
-ClassName=rviz::RobotModelDisplay
-Name=RobotModel
-[Window]
-Height=990
-Width=1507
-X=-1
-Y=-28
+Panels:
+  - Class: rviz/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Compass1/Status1
+      Splitter Ratio: 0.5
+    Tree Height: 886
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        pcb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: Compass
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: false
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        {}
+      Update Interval: 0
+      Value: false
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: /odom
+  Name: root
+  Tools:
+    - Class: rviz/MoveCamera
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 1.05418
+      Focal Point:
+        X: 0.0132644
+        Y: 0.0521525
+        Z: -0.223257
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 1.0754
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.670398
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1152
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000001000000000000010f00000405fc0200000001fb000000100044006900730070006c006100790073010000004100000405000000dd00ffffff0000066b0000040500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Width: 1920
+  X: -1210
+  Y: -400

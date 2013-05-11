@@ -157,6 +157,8 @@ void OS5000::timerCallback(const ros::TimerEvent& event)
     if (isConnected())
     {
         getData();
+        imudata.header.stamp = ros::Time::now();
+
 
         float current_yaw = getYaw();
         if (current_yaw > 180.)
@@ -168,9 +170,9 @@ void OS5000::timerCallback(const ros::TimerEvent& event)
     else
     {
         // Simulate data.
-        roll = 0.0;
-        pitch = 0.0;
-        yaw = 0.0;
+        //roll = 0.0;
+        //pitch = 0.0;
+        //yaw = 0.0;
     }
 
     // Publish the message.
@@ -420,8 +422,6 @@ void OS5000::publishImuData()
     ROS_DEBUG("OS5000 Quaternions = %.1f, %.1f, %.1f, %.1f", imudata.orientation.x, imudata.orientation.y, imudata.orientation.z, imudata.orientation.w);
     ROS_DEBUG("OS5000 (RPY) = (%lf, %lf, %lf)", roll, pitch, yaw);
 
-    imudata.header.stamp = ros::Time::now();
-
     pub_imu_data.publish(imudata);
 
     // Update transform for sensor state.
@@ -440,13 +440,19 @@ void OS5000::publishImuData()
 
 void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)
 {
-    ROS_INFO("Reconfiguring port, baud, rate, init_time, reconnect to %s, %d, %d, %d, %d", config.port.c_str(), config.baud, config.rate, config.init_time, config.reconnect);
+    ROS_DEBUG("Reconfiguring port, baud, rate, init_time, reconnect to %s, %d, %d, %d, %d", config.port.c_str(), config.baud, config.rate, config.init_time, config.reconnect);
 
     // Set class variables to new values.
     baud      = config.baud;
     init_time = config.init_time;
     portname  = config.port.c_str();
     rate      = config.rate;
+    if (!isConnected())
+    {
+        roll      = config.roll_sim;
+        pitch     = config.pitch_sim;
+        yaw       = config.yaw_sim;
+    }
 
     // Check to see if we should attempt to reconnect to the compass.
     if (config.reconnect)
