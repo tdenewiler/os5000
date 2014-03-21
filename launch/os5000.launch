@@ -1,3 +1,3 @@
 <launch>
-    <node pkg="os5000" type="os5000_node" name="os5000"/>
+    <node pkg="os5000" type="os5000" name="os5000"/>
 </launch>

@@ -5,6 +5,9 @@
     
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
 
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg vcg_file)"/>
-    <!--node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"/-->
+    <include file="$(find os5000)/launch/os5000.launch"/>
+
+    <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"/>
+
+    <node pkg="rviz" type="rviz" name="rviz" launch-prefix="xterm -e gdb --args"/>
 </launch>

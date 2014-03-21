@@ -170,7 +170,7 @@ private:
     sensor_msgs::Imu imudata;
     ros::Publisher pub_imu_data;
     dynamic_reconfigure::Server<os5000::os5000Config> reconfig_srv;
-    dynamic_reconfigure::Server<os5000::os5000Config>::CallbackType f;
+    dynamic_reconfigure::Server<os5000::os5000Config>::CallbackType reconfig_cb;
 
     int init_time;
     bool compass_initialized;

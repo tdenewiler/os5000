@@ -3,8 +3,8 @@
 OS5000::OS5000(ros::NodeHandle nh_)
 {
     // Set up a dynamic reconfigure server.
-    f = boost::bind(&OS5000::configCallback, this, _1, _2);
-    reconfig_srv.setCallback(f);
+    reconfig_cb = boost::bind(&OS5000::configCallback, this, _1, _2);
+    reconfig_srv.setCallback(reconfig_cb);
 
     // Initialize node parameters.
     ros::NodeHandle pnh("~");
