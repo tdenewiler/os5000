@@ -1,13 +1,11 @@
 <launch>
-    <arg name="vcg_file" default="$(find os5000)/rviz/os5000.vcg"/>
+  <arg name="rviz_config_file" default="$(find os5000)/rviz/os5000.rviz"/>
 
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find os5000)/urdf/os5000.urdf.xacro'"/>
-    
-    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find os5000)/urdf/os5000.urdf.xacro'"/>
+  
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
 
-    <include file="$(find os5000)/launch/os5000.launch"/>
+  <include file="$(find os5000)/launch/os5000.launch"/>
 
-    <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"/>
-
-    <node pkg="rviz" type="rviz" name="rviz" launch-prefix="xterm -e gdb --args"/>
+  <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui"/>
 </launch>

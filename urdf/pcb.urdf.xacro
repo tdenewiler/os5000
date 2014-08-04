@@ -6,11 +6,14 @@
        xmlns:xacro="http://ros.org/wiki/xacro"
 >
 
-    <xacro:property name="pcb_x_size"   value="0.0254"/>
-    <xacro:property name="pcb_y_size"   value="0.0254"/>
-    <xacro:property name="pcb_z_size"   value="0.0075"/>
+    <xacro:property name="pcb_x_size" value="0.0254"/>
+    <xacro:property name="pcb_y_size" value="0.0254"/>
+    <xacro:property name="pcb_z_size" value="0.0075"/>
+    <xacro:property name="connector_x_size" value="0.00254"/>
+    <xacro:property name="connector_y_size" value="0.00254"/>
+    <xacro:property name="connector_z_size" value="0.0035"/>
 
-    <link name="pcb">
+    <link name="pcb_top">
         <inertial>
             <mass value="0.1"/>
             <inertia ixx="1.01" ixy="0.0" ixz="1.01" iyy="3.03" iyz="0.0" izz="2.02"/>
@@ -19,25 +22,81 @@
         <visual>
             <origin xyz="0 0 0" rpy="3.14 0 3.14"/>
             <geometry>
-                <!--mesh filename="package://os5000/mesh/os5000.stl"/-->
-                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size}"/>
+                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size/2.0}"/>
             </geometry>
-            <xacro:material_silver/>
+            <xacro:material_dark_red/>
         </visual>
         
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <!--mesh filename="package://os5000/mesh/os5000.stl"/-->
-                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size}"/>
+                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size/2.0}"/>
             </geometry>
             <contact_coefficients mu="0.1" kp="1000.0" kd="1.0"/>
         </collision>
     </link>
 
-    <joint name="base_link_to_pcb" type="fixed">
+    <link name="pcb_bottom">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.01" ixy="0.0" ixz="1.01" iyy="3.03" iyz="0.0" izz="2.02"/>
+        </inertial>
+    
+        <visual>
+            <origin xyz="0 0 0" rpy="3.14 0 3.14"/>
+            <geometry>
+                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size/2.0}"/>
+            </geometry>
+            <xacro:material_red/>
+        </visual>
+        
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${pcb_x_size} ${pcb_y_size} ${pcb_z_size/2.0}"/>
+            </geometry>
+            <contact_coefficients mu="0.1" kp="1000.0" kd="1.0"/>
+        </collision>
+    </link>
+
+    <link name="pcb_connector">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="1.01" ixy="0.0" ixz="1.01" iyy="3.03" iyz="0.0" izz="2.02"/>
+        </inertial>
+    
+        <visual>
+            <origin xyz="0 0 0" rpy="3.14 0 3.14"/>
+            <geometry>
+                <box size="${connector_x_size} ${connector_y_size} ${connector_z_size}"/>
+            </geometry>
+            <xacro:material_white/>
+        </visual>
+        
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${connector_x_size} ${connector_y_size} ${connector_z_size}"/>
+            </geometry>
+            <contact_coefficients mu="0.1" kp="1000.0" kd="1.0"/>
+        </collision>
+    </link>
+
+    <joint name="base_link_to_pcb_bottom" type="fixed">
         <parent link="base_link"/>
-        <child link="pcb"/>
+        <child link="pcb_bottom"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="pcb_bottom_to_pcb_top" type="fixed">
+        <parent link="pcb_bottom"/>
+        <child link="pcb_top"/>
+        <origin xyz="0 0 ${pcb_z_size/2.0}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="pcb_bottom_to_pcb_connector" type="fixed">
+        <parent link="pcb_bottom"/>
+        <child link="pcb_connector"/>
+        <origin xyz="${-1.0*pcb_x_size/2.0} 0 ${pcb_z_size}" rpy="0 0 0"/>
     </joint>
 </robot>

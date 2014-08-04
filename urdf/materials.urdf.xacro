@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot
+       xmlns:xacro="http://ros.org/wiki/xacro"
+>
+
+  <xacro:macro name="material_silver">
+    <material name="silver">
+      <color rgba="0.78 0.7686 0.7686 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_silver_gold">
+    <material name="silver_gold">
+      <color rgba="0.69 0.66 0.57 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_blue">
+    <material name="blue">
+      <color rgba="0.0 0.0 1.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_black">
+    <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_gray">
+    <material name="gray">
+      <color rgba="0.2 0.2 0.2 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_white">
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_white_alpha_0.5">
+    <material name="white_alpha_0.5">
+      <color rgba="1.0 1.0 1.0 0.5"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_beige">
+    <material name="beige">
+      <color rgba="0.97 0.86 0.67 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_black">
+    <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_red">
+    <material name="red">
+      <color rgba="1.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_dark_red">
+    <material name="dark_red">
+      <color rgba="0.5 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_olive_green">
+    <material name="olive_green">
+      <color rgba="0.33 0.42 0.18 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_dark_green_alpha_0.5">
+    <material name="dark_green">
+      <color rgba="0.0 0.39 0.0 0.5"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_brown_alpha_0.5">
+    <material name="brown">
+      <color rgba="0.55 0.27 0.07 0.5"/>
+    </material>
+  </xacro:macro>
+</robot>
