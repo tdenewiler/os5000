@@ -99,7 +99,7 @@ class OS5000
 public:
     //! Constructor.
     //! \param nh_ The node handle that topics and parameters are attached to.
-    OS5000(ros::NodeHandle nh_);
+    explicit OS5000(ros::NodeHandle nh_);
 
     //! Destructor.
     ~OS5000();

@@ -8,10 +8,10 @@ OS5000::OS5000(ros::NodeHandle nh_)
 
     // Initialize node parameters.
     ros::NodeHandle pnh("~");
-    pnh.param("baud",      baud,      int(115200));
-    pnh.param("init_time", init_time, int(3));
+    pnh.param("baud",      baud,      115200);
+    pnh.param("init_time", init_time, 3);
     pnh.param("port",      portname,  std::string("/dev/ttyUSB0"));
-    pnh.param("rate",      rate,      int(40));
+    pnh.param("rate",      rate,      40);
     if (rate <= 0)
     {
         rate = 1;
@@ -330,7 +330,7 @@ void OS5000::parseMsg()
     int i = 0;
     char *token;
     char *saveptr;
-    char *delim = (char *)OS5000_DELIM;
+    char const *delim = reinterpret_cast<char const *>(OS5000_DELIM);
     char *tokens[OS5000_STRING_SIZE];
 
     // Initialize variables.
@@ -373,11 +373,11 @@ void OS5000::parseMsg()
 
 void OS5000::simulateData()
 {
-    pitch        = pitch + rand() / (float)RAND_MAX;
-    roll         = roll  + rand() / (float)RAND_MAX;
-    yaw          = yaw   + rand() / (float)RAND_MAX;
-    temperature  = 0     + rand() / (float)RAND_MAX;
-    depth        = depth + rand() / (float)RAND_MAX;
+    pitch        = pitch + rand() / static_cast<float>(RAND_MAX);
+    roll         = roll  + rand() / static_cast<float>(RAND_MAX);
+    yaw          = yaw   + rand() / static_cast<float>(RAND_MAX);
+    temperature  = 0     + rand() / static_cast<float>(RAND_MAX);
+    depth        = depth + rand() / static_cast<float>(RAND_MAX);
 }
 
 void OS5000::init()
