@@ -1,3 +1,13 @@
 <launch>
-  <node pkg="os5000" type="os5000" name="os5000"/>
+  <arg name="port" default="/dev/ttyUSB0"/>
+  <arg name="baud" default="115200"/>
+  <arg name="rate" default="40"/>
+  <arg name="use_asio" default="true"/>
+
+  <node pkg="os5000" type="os5000" name="os5000" output="screen">
+    <param name="port" value="$(arg port)"/>
+    <param name="baud" value="$(arg baud)"/>
+    <param name="rate" value="$(arg rate)"/>
+    <param name="use_asio" value="$(arg use_asio)"/>
+  </node>
 </launch>
