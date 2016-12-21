@@ -136,7 +136,6 @@ void OS5000::setup()
 void OS5000::getData()
 {
   // Declare variables.
-  int bytes_to_discard = 0;
   found_complete_message_ = false;
 
   // Get the number of bytes available on the serial port.
@@ -149,7 +148,7 @@ void OS5000::getData()
   }
   if (bytes_available_ + strlen(buf_recv_) >= SERIAL_MAX_DATA)
   {
-    bytes_to_discard = bytes_available_ + strlen(buf_recv_) - SERIAL_MAX_DATA - 1;
+    int bytes_to_discard = bytes_available_ + strlen(buf_recv_) - SERIAL_MAX_DATA - 1;
     memmove(buf_recv_, &buf_recv_[bytes_to_discard], bytes_to_discard);
   }
 
@@ -307,26 +306,31 @@ void OS5000::zeroDepth()
   OS5000::buf_send_ = &cmd;
 
   // send command.
-  if (fd_ > 0)
+  if (fd_ <= 0)
   {
-    // send out escape and R commands.
-    cmd = OS5000_CMD_ESC;
-    length_send_ = 1;
-    send();
-    usleep(OS5000_SERIAL_DELAY);
-
-    // send out zero depth command.
-    cmd = OS5000_CMD_ZERO_DEPTH;
-    length_send_ = 1;
-    send();
-    usleep(OS5000_SERIAL_DELAY);
-
-    // send out the ending command.
-    cmd = OS5000_CMD_END;
-    length_send_ = 1;
-    send();
-    usleep(OS5000_SERIAL_DELAY);
+    return;
   }
+
+  // send out escape and R commands.
+  cmd = OS5000_CMD_ESC;
+  OS5000::buf_send_ = &cmd;
+  length_send_ = 1;
+  send();
+  usleep(OS5000_SERIAL_DELAY);
+
+  // send out zero depth command.
+  cmd = OS5000_CMD_ZERO_DEPTH;
+  OS5000::buf_send_ = &cmd;
+  length_send_ = 1;
+  send();
+  usleep(OS5000_SERIAL_DELAY);
+
+  // send out the ending command.
+  cmd = OS5000_CMD_END;
+  OS5000::buf_send_ = &cmd;
+  length_send_ = 1;
+  send();
+  usleep(OS5000_SERIAL_DELAY);
 }
 
 void OS5000::findMsg()

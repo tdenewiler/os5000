@@ -4,7 +4,7 @@ namespace os5000
 {
 namespace asio
 {
-OS5000Serial::OS5000Serial()
+OS5000Serial::OS5000Serial() : roll_(0.0), pitch_(0.0), yaw_(0.0), temp_(0.0)
 {
 }
 
@@ -132,7 +132,7 @@ void OS5000Serial::findMsg()
   {
     yaw_ = boost::lexical_cast<float>(msg.substr(start + 1, end - start - 1));
   }
-  catch (boost::bad_lexical_cast)
+  catch (boost::bad_lexical_cast &e)
   {
     return;
   }
@@ -147,7 +147,7 @@ void OS5000Serial::findMsg()
   {
     pitch_ = boost::lexical_cast<float>(msg.substr(start + 1, end - start - 1));
   }
-  catch (boost::bad_lexical_cast)
+  catch (boost::bad_lexical_cast &e)
   {
     return;
   }
@@ -162,7 +162,7 @@ void OS5000Serial::findMsg()
   {
     roll_ = boost::lexical_cast<float>(msg.substr(start + 1, end - start - 1));
   }
-  catch (boost::bad_lexical_cast)
+  catch (boost::bad_lexical_cast &e)
   {
     return;
   }
@@ -177,7 +177,7 @@ void OS5000Serial::findMsg()
   {
     temp_ = boost::lexical_cast<float>(msg.substr(start + 1, end - start - 1));
   }
-  catch (boost::bad_lexical_cast)
+  catch (boost::bad_lexical_cast &e)
   {
     return;
   }

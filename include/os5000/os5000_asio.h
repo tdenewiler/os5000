@@ -1,5 +1,5 @@
-#ifndef OS5000_ASIO_H
-#define OS5000_ASIO_H
+#ifndef OS5000_OS5000_ASIO_H
+#define OS5000_OS5000_ASIO_H
 
 #include <boost/asio.hpp>
 #include <boost/lexical_cast.hpp>
@@ -26,7 +26,7 @@ class OS5000Serial
  private:
   void send(const std::string &cmd);
 
-  void onRead(const boost::system::error_code &e, std::size_t size);
+  void onRead(const boost::system::error_code &error, std::size_t size);
 
   void doRead();
 
@@ -57,4 +57,4 @@ class OS5000Serial
 }
 }
 
-#endif  // OS5000_ASIO_H
+#endif

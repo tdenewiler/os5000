@@ -2,7 +2,8 @@
   <name>os5000</name>
   <version>0.1.0</version>
   <description>
-    This package provides an interface to the Ocean Server OS5000 digital compass.
+    Ocean Server OS5000 digital compass ROS driver.
+    Details at http://www.ocean-server.com/compass.html.
   </description>
   <author>Thomas Denewiler</author>
   <maintainer email="tdenewiler@gmail.com">Thomas Denewiler</maintainer>

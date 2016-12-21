@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(os5000)
 
-find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure roscpp tf)
+find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure roscpp sensor_msgs tf)
 
-find_package(Boost REQUIRED COMPONENTS thread system)
+find_package(Boost REQUIRED COMPONENTS system thread)
 
 generate_dynamic_reconfigure_options(cfg/os5000.cfg)
 
-catkin_package(CATKIN_DEPENDS dynamic_reconfigure roscpp tf)
+catkin_package(CATKIN_DEPENDS dynamic_reconfigure roscpp sensor_msgs tf)
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(os5000 src/nodes/os5000_node.cpp src/os5000_core.cpp src/os5000_asio.cpp)
+add_executable(os5000 src/nodes/os5000_node.cpp src/os5000_asio.cpp src/os5000_core.cpp)
 target_link_libraries(os5000 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg)
 

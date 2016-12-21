@@ -1,5 +1,5 @@
-#ifndef OS5000_CORE_H
-#define OS5000_CORE_H
+#ifndef OS5000_OS5000_CORE_H
+#define OS5000_OS5000_CORE_H
 
 #include <os5000/os5000_asio.h>
 
@@ -70,10 +70,10 @@ namespace serial
 
 #ifndef OS5000_ERROR_HEADER
 #define OS5000_SUCCESS 1
-#define OS5000_ERROR_HEADER -1
-#define OS5000_ERROR_CHECKSUM -2
-#define OS5000_ERROR_LENGTH -3
-#define OS5000_ERROR_VALID_MSG -4
+#define OS5000_ERROR_HEADER (-1)
+#define OS5000_ERROR_CHECKSUM (-2)
+#define OS5000_ERROR_LENGTH (-3)
+#define OS5000_ERROR_VALID_MSG (-4)
 #endif  // OS5000_ERROR_HEADER
 
 /** @name Maximum number of serial ports to check for available data. */
@@ -212,4 +212,4 @@ class OS5000
 }
 }
 
-#endif  // OS5000_CORE_H
+#endif
