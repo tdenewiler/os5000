@@ -1,4 +1,4 @@
-#include "os5000/os5000_core.h"
+#include <os5000/os5000_core.h>
 
 int main(int argc, char **argv)
 {
