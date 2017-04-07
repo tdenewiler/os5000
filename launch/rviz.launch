@@ -1,14 +1,11 @@
 <launch>
   <arg name="rviz_config_file" default="$(find os5000)/rviz/os5000.rviz"/>
-  <arg name="use_asio" default="true"/>
 
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find os5000)/urdf/os5000.urdf.xacro'"/>
   
   <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
 
-  <include file="$(find os5000)/launch/os5000.launch">
-    <arg name="use_asio" value="$(arg use_asio)"/>
-  </include>
+  <include file="$(find os5000)/launch/os5000.launch"/>
 
   <node pkg="rviz" type="rviz" name="rviz"/>
 </launch>

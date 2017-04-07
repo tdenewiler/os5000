@@ -4,10 +4,11 @@ int main(int argc, char **argv)
 {
   // Set up ROS.
   ros::init(argc, argv, "os5000");
-  ros::NodeHandle nh;
 
+  ros::NodeHandle nh;
   os5000::serial::OS5000 node(nh);
-  node.run();
+
+  ros::spin();
 
   return 0;
 }
