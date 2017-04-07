@@ -4,20 +4,6 @@
 #include <os5000/os5000_asio.h>
 
 // System includes.
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <errno.h>
-
-// Serial includes.
-#include <fcntl.h>
-#include <termios.h>
-#include <sys/ioctl.h>
-#include <string>
-#include <iostream>
-
 // ROS includes.
 #include <ros/ros.h>
 #include <ros/console.h>
@@ -43,7 +29,7 @@ class OS5000
 
  private:
   //! Establish communications with the compass using Boost ASIO.
-  void setupASIO();
+  void setup();
 
   //! Callback function for timer that kicks off all the work.
   void timerCallback(const ros::TimerEvent &event);
@@ -72,6 +58,7 @@ class OS5000
   //! Publish the IMU data.
   void publishImuData();
 
+  //! Simulate data in the case that the compass is not connected.
   void simulateData();
 
   tf::TransformBroadcaster tf_broadcaster_;
@@ -80,6 +67,7 @@ class OS5000
   dynamic_reconfigure::Server<os5000::os5000Config> reconfig_srv_;
   dynamic_reconfigure::Server<os5000::os5000Config>::CallbackType reconfig_cb_;
   ros::Timer timer_;
+  boost::shared_ptr<asio::OS5000Serial> serial_;
 
   int rate_;
   float pitch_;
@@ -88,11 +76,8 @@ class OS5000
   float temperature_;
   float depth_;
   bool compass_initialized_;
-
   std::string portname_;
   int baud_;
-
-  boost::shared_ptr<asio::OS5000Serial> serial_;
 };
 }
 }

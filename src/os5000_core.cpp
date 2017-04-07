@@ -36,7 +36,7 @@ OS5000::OS5000(ros::NodeHandle nh)
   timer_ = nh.createTimer(ros::Duration(1.0 / rate_), &OS5000::timerCallback, this);
 
   // Set up the compass.
-  setupASIO();
+  setup();
 
   if (!isConnected())
   {
@@ -144,7 +144,7 @@ void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)
   if (config.reconnect)
   {
     // Use the new compass settings to reconnect.
-    setupASIO();
+    setup();
 
     // Reset the reconnect variable.
     config.reconnect = false;
@@ -181,7 +181,7 @@ bool OS5000::isConnected()
   return compass_initialized_;
 }
 
-void OS5000::setupASIO()
+void OS5000::setup()
 {
   serial_.reset(new asio::OS5000Serial());
   if (serial_->connect(portname_, baud_))
