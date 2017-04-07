@@ -101,6 +101,11 @@ void OS5000::publishImuData()
   pitch_ *= -1.;
   yaw_ *= -1.;
 
+  if (!isConnected())
+  {
+    simulateData();
+  }
+
   imu_.orientation =
       tf::createQuaternionMsgFromRollPitchYaw(roll_ * M_PI / 180., pitch_ * M_PI / 180., yaw_ * M_PI / 180.);
 
@@ -149,31 +154,6 @@ void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)
     // Reset the reconnect variable.
     config.reconnect = false;
   }
-}
-
-float OS5000::getRoll()
-{
-  return roll_;
-}
-
-float OS5000::getPitch()
-{
-  return pitch_;
-}
-
-float OS5000::getYaw()
-{
-  return yaw_;
-}
-
-float OS5000::setYaw(float difference)
-{
-  return (yaw_ + difference);
-}
-
-float OS5000::getTemperature()
-{
-  return temperature_;
 }
 
 bool OS5000::isConnected()

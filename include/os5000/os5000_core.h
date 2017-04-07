@@ -40,21 +40,6 @@ class OS5000
   //! Return whether we are connected to the compass.
   bool isConnected();
 
-  //! Return roll angle.
-  float getRoll();
-
-  //! Return pitch angle.
-  float getPitch();
-
-  //! Return yaw angle.
-  float getYaw();
-
-  //! Return temperature.
-  float getTemperature();
-
-  //! Set yaw angle.
-  float setYaw(float difference);
-
   //! Publish the IMU data.
   void publishImuData();
 
