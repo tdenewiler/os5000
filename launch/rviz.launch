@@ -1,7 +1,7 @@
 <launch>
   <arg name="rviz_config_file" default="$(find os5000)/rviz/os5000.rviz"/>
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find os5000)/urdf/os5000.urdf.xacro'"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find os5000)/urdf/os5000.urdf.xacro'"/>
   
   <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher"/>
 
