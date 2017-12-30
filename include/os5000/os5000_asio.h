@@ -17,9 +17,9 @@ class OS5000Serial
 
   ~OS5000Serial();
 
-  bool connect(const std::string &port, const int baud);
+  bool connect(const std::string &port, int baud);
 
-  void init(const int rate);
+  void init(int rate);
 
   void getValues(float *roll, float *pitch, float *yaw, float *temp);
 
