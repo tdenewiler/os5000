@@ -136,7 +136,7 @@ void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)
 
   // Set class variables to new values.
   baud_ = config.baud;
-  portname_ = config.port.c_str();
+  portname_ = config.port;
   rate_ = config.rate;
   if (!isConnected())
   {
