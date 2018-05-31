@@ -72,7 +72,8 @@ OS5000::OS5000(ros::NodeHandle nh)
   imu_.linear_acceleration_covariance[8] = linear_acceleration_covariance;
 }
 
-void OS5000::timerCallback(const ros::TimerEvent &event)
+// Ignore unused parameters since the callback signature cannot be changed by us.
+void OS5000::timerCallback(const ros::TimerEvent &event)  // NOLINT
 {
   serial_->getValues(&roll_, &pitch_, &yaw_, &temperature_);
   ROS_DEBUG("Got (%0.1f, %0.1f, %0.1f)", roll_, pitch_, yaw_);
@@ -129,7 +130,8 @@ void OS5000::publishImuData()
   tf_broadcaster_.sendTransform(transform);
 }
 
-void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)
+// Ignore unused parameters since the callback signature cannot be changed by us.
+void OS5000::configCallback(os5000::os5000Config &config, uint32_t level)  // NOLINT
 {
   ROS_DEBUG("Reconfiguring port, baud, rate, init_time, reconnect to %s, %d, %d, %d, %d", config.port.c_str(),
             config.baud, config.rate, config.init_time, config.reconnect);

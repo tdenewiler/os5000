@@ -1,4 +1,5 @@
 #include <os5000/os5000_asio.h>
+#include <boost/thread/thread.hpp>
 
 namespace os5000
 {
@@ -82,7 +83,7 @@ void OS5000Serial::init(const int rate)
   for (std::vector<std::string>::const_iterator i = cmd.begin(); i != cmd.end(); ++i)
   {
     send(*i);
-    usleep(5000);
+    boost::this_thread::sleep(boost::posix_time::milliseconds(5));
   }
 }
 
@@ -118,6 +119,7 @@ void OS5000Serial::findMsg()
   }
   catch (const std::out_of_range &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error grabbing message: %s", e.what());
     return;
   }
   data_.erase(start, end);
@@ -134,6 +136,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting yaw: %s", e.what());
     return;
   }
 
@@ -149,6 +152,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting pitch: %s", e.what());
     return;
   }
 
@@ -164,6 +168,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting roll: %s", e.what());
     return;
   }
 
@@ -179,6 +184,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting temperature: %s", e.what());
     return;
   }
 
