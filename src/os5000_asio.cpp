@@ -118,6 +118,7 @@ void OS5000Serial::findMsg()
   }
   catch (const std::out_of_range &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error grabbing message: %s", e.what());
     return;
   }
   data_.erase(start, end);
@@ -134,6 +135,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting yaw: %s", e.what());
     return;
   }
 
@@ -149,6 +151,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting pitch: %s", e.what());
     return;
   }
 
@@ -164,6 +167,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting roll: %s", e.what());
     return;
   }
 
@@ -179,6 +183,7 @@ void OS5000Serial::findMsg()
   }
   catch (boost::bad_lexical_cast &e)
   {
+    ROS_ERROR_THROTTLE(3, "Error converting temperature: %s", e.what());
     return;
   }
 
