@@ -1,4 +1,5 @@
 #include <os5000/os5000_asio.h>
+#include <boost/thread/thread.hpp>
 
 namespace os5000
 {
@@ -82,7 +83,7 @@ void OS5000Serial::init(const int rate)
   for (std::vector<std::string>::const_iterator i = cmd.begin(); i != cmd.end(); ++i)
   {
     send(*i);
-    usleep(5000);
+    boost::this_thread::sleep(boost::posix_time::milliseconds(5));
   }
 }
 
