@@ -26,16 +26,19 @@ bool OS5000Serial::connect(const std::string &port, const int baud)
   io_.reset(new boost::asio::io_service());
   work_.reset(new boost::asio::io_service::work(*io_));
   thread_.reset(new boost::thread(boost::bind(&boost::asio::io_service::run, io_)));
-
   port_.reset(new boost::asio::serial_port(*io_, port));
-  boost::system::error_code error_code;
+
+  // Ignoring flawfinder warning about system calls for the error code.
+  boost::system::error_code error_code;  // NOLINT
   port_->set_option(boost::asio::serial_port::baud_rate(baud), error_code);
   port_->set_option(boost::asio::serial_port::flow_control(boost::asio::serial_port::flow_control::none));
   if (port_->is_open())
   {
     port_->close();
   }
-  port_->open(port, error_code);
+
+  // Ignoring flawfinder warning due to lack of better alternative open method.
+  port_->open(port, error_code);  // NOLINT
   if (error_code != 0)
   {
     ROS_ERROR_STREAM("Could not open port with ASIO. Error = " << error_code);
@@ -58,7 +61,8 @@ void OS5000Serial::doRead()
                                      boost::asio::placeholders::bytes_transferred));
 }
 
-void OS5000Serial::onRead(const boost::system::error_code &error, std::size_t size)
+// Ignoring flawfinder warning about system calls for the error code.
+void OS5000Serial::onRead(const boost::system::error_code &error, std::size_t size)  // NOLINT
 {
   boost::mutex::scoped_lock look(mutex_);
   ROS_DEBUG_STREAM("In onRead() with " << size << " bytes and result is " << error.message());
@@ -91,7 +95,8 @@ void OS5000Serial::send(const std::string &cmd)
 {
   if (port_->is_open())
   {
-    boost::system::error_code error_code;
+    // Ignoring flawfinder warning about system calls for the error code.
+    boost::system::error_code error_code;  // NOLINT
     size_t bytes_sent = port_->write_some(boost::asio::buffer(cmd), error_code);
   }
 }

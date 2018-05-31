@@ -26,7 +26,8 @@ class OS5000Serial
  private:
   void send(const std::string &cmd);
 
-  void onRead(const boost::system::error_code &error, std::size_t size);
+  // Ignoring flawfinder warning about system calls for the error code.
+  void onRead(const boost::system::error_code &error, std::size_t size);  // NOLINT
 
   void doRead();
 
