@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(os5000)
 
+if(CMAKE_COMPILER_IS_GNUCC)
+  set(LOCAL_CXX_FLAGS "-std=c++0x")
+else()
+  set(LOCAL_CXX_FLAGS "-std=c++11")
+endif()
+
 find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure roscpp sensor_msgs tf)
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -14,6 +20,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 add_executable(os5000 src/nodes/os5000_node.cpp src/os5000_asio.cpp src/os5000_core.cpp)
 target_link_libraries(os5000 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg)
+set_target_properties(os5000 PROPERTIES COMPILE_FLAGS "${LOCAL_CXX_FLAGS}")
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)

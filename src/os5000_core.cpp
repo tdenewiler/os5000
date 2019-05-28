@@ -1,4 +1,5 @@
 #include <os5000/os5000_core.h>
+#include <random>
 
 namespace os5000
 {
@@ -78,11 +79,15 @@ void OS5000::timerCallback(const ros::TimerEvent &event)  // NOLINT
 
 void OS5000::simulateData()
 {
-  pitch_ = pitch_ + rand() / static_cast<float>(RAND_MAX);
-  roll_ = roll_ + rand() / static_cast<float>(RAND_MAX);
-  yaw_ = yaw_ + rand() / static_cast<float>(RAND_MAX);
-  depth_ = depth_ + rand() / static_cast<float>(RAND_MAX);
-  temperature_ = 0 + rand() / static_cast<float>(RAND_MAX);
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::normal_distribution<> dis(0.0, 0.1);
+
+  pitch_ = pitch_ + dis(gen);
+  roll_ = roll_ + dis(gen);
+  yaw_ = yaw_ + dis(gen);
+  depth_ = depth_ + dis(gen);
+  temperature_ = 0 + dis(gen);
 }
 
 void OS5000::publishImuData()
