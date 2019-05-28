@@ -1,4 +1,7 @@
 #include <os5000/os5000_core.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 namespace os5000
 {
@@ -78,11 +81,14 @@ void OS5000::timerCallback(const ros::TimerEvent &event)  // NOLINT
 
 void OS5000::simulateData()
 {
-  pitch_ = pitch_ + rand() / static_cast<float>(RAND_MAX);
-  roll_ = roll_ + rand() / static_cast<float>(RAND_MAX);
-  yaw_ = yaw_ + rand() / static_cast<float>(RAND_MAX);
-  depth_ = depth_ + rand() / static_cast<float>(RAND_MAX);
-  temperature_ = 0 + rand() / static_cast<float>(RAND_MAX);
+  struct timespec ts;
+  srandom(ts.tv_nsec ^ ts.tv_sec);
+
+  pitch_ = pitch_ + random() / static_cast<float>(RAND_MAX);
+  roll_ = roll_ + random() / static_cast<float>(RAND_MAX);
+  yaw_ = yaw_ + random() / static_cast<float>(RAND_MAX);
+  depth_ = depth_ + random() / static_cast<float>(RAND_MAX);
+  temperature_ = 0 + random() / static_cast<float>(RAND_MAX);
 }
 
 void OS5000::publishImuData()
