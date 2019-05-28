@@ -5,8 +5,9 @@ levels:
         flags: ""
       catkin_lint:
         flags: "-W2 --ignore DESCRIPTION_BOILERPLATE,DESCRIPTION_MEANINGLESS,GLOBAL_VAR_COLLISION,LINK_DIRECTORY,LITERAL_PROJECT_NAME,TARGET_NAME_COLLISION"
-      cccc:
-        flags: ""
+      # Not using CCCC for now. It should be added later.
+      # cccc:
+      #   flags: ""
       clang-format:
         flags: ""
       clang-tidy:
