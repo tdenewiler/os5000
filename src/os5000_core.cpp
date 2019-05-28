@@ -29,6 +29,9 @@ OS5000::OS5000(ros::NodeHandle nh)
     rate_ = 1;
   }
 
+  double orientation_covariance = 1.0;
+  pnh.param("orientation_covariance", orientation_covariance, orientation_covariance);
+
   // Create a publisher.
   pub_imu_data_ = pnh.advertise<sensor_msgs::Imu>("data", 1);
 
@@ -49,23 +52,14 @@ OS5000::OS5000(ros::NodeHandle nh)
   // Set up message data. Using -1.0 on diagonal to indicate specific message field is invalid.
   double linear_acceleration_covariance = -1.0;
   double angular_velocity_covariance = -1.0;
-  double orientation_covariance = 1.0;
 
   imu_.orientation_covariance[0] = orientation_covariance;
   imu_.orientation_covariance[4] = orientation_covariance;
   imu_.orientation_covariance[8] = orientation_covariance;
 
-  imu_.angular_velocity.x = 0.;
-  imu_.angular_velocity.y = 0.;
-  imu_.angular_velocity.z = 0.;
-
   imu_.angular_velocity_covariance[0] = angular_velocity_covariance;
   imu_.angular_velocity_covariance[4] = angular_velocity_covariance;
   imu_.angular_velocity_covariance[8] = angular_velocity_covariance;
-
-  imu_.linear_acceleration.x = 0.;
-  imu_.linear_acceleration.y = 0.;
-  imu_.linear_acceleration.z = 0.;
 
   imu_.linear_acceleration_covariance[0] = linear_acceleration_covariance;
   imu_.linear_acceleration_covariance[4] = linear_acceleration_covariance;
@@ -87,8 +81,8 @@ void OS5000::simulateData()
   pitch_ = pitch_ + rand() / static_cast<float>(RAND_MAX);
   roll_ = roll_ + rand() / static_cast<float>(RAND_MAX);
   yaw_ = yaw_ + rand() / static_cast<float>(RAND_MAX);
-  temperature_ = 0 + rand() / static_cast<float>(RAND_MAX);
   depth_ = depth_ + rand() / static_cast<float>(RAND_MAX);
+  temperature_ = 0 + rand() / static_cast<float>(RAND_MAX);
 }
 
 void OS5000::publishImuData()
@@ -110,9 +104,7 @@ void OS5000::publishImuData()
   imu_.orientation =
       tf::createQuaternionMsgFromRollPitchYaw(roll_ * M_PI / 180., pitch_ * M_PI / 180., yaw_ * M_PI / 180.);
 
-  ROS_DEBUG("OS5000 Quaternions = %.1f, %.1f, %.1f, %.1f", imu_.orientation.x, imu_.orientation.y, imu_.orientation.z,
-            imu_.orientation.w);
-  ROS_DEBUG("OS5000 (RPY) = (%lf, %lf, %lf)", roll_, pitch_, yaw_);
+  ROS_DEBUG("RPY = %0.2lf, %0.2lf, %0.2lf", roll_, pitch_, yaw_);
 
   pub_imu_data_.publish(imu_);
 
