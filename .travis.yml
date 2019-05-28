@@ -120,4 +120,7 @@ script:
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
   # Run the tests, ensuring the path is set correctly.
   - source devel/setup.bash
-    #- catkin_make run_tests && catkin_test_results
+  #- catkin_make run_tests && catkin_test_results
+  - mkdir statick_output
+  - cp /usr/local/lib/python2.7/dist-packages/statick_tool/rsc/_clang-format /home/travis
+  - statick src/$ROS_PKG statick_output --user-paths ./src/$ROS_PKG/statick_config --clang-format-ignore-exception
