@@ -63,6 +63,8 @@ env:
     # Set the python path manually to include /usr/-/python2.7/dist-packages
     # as this is where apt-get installs python packages.
     - PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
+    - TRAVIS_CI_PATH=$(pwd)
+    - ROS_PKG=os5000
 
 notifications:
   email:
