@@ -209,5 +209,5 @@ void OS5000Serial::getValues(float *roll, float *pitch, float *yaw, float *temp)
   *yaw = yaw_;
   *temp = temp_;
 }
-}
-}
+}  // namespace asio
+}  // namespace os5000

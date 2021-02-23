@@ -94,7 +94,7 @@ jobs:
 
       - name: Statick markdown
         run: |
-          statick . --check --profile documentation.yaml
+          statick . --check --profile documentation.yaml --log info
 
       - name: Build
         run: |
