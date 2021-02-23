@@ -171,5 +171,5 @@ void OS5000::setup()
 
   serial_->init(rate_);
 }
-}
-}
+}  // namespace serial
+}  // namespace os5000

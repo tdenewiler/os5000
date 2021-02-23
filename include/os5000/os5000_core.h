@@ -64,7 +64,7 @@ class OS5000
   std::string portname_;
   int baud_;
 };
-}
-}
+}  // namespace serial
+}  // namespace os5000
 
 #endif

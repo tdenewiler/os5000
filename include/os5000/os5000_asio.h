@@ -55,7 +55,7 @@ class OS5000Serial
 
   float temp_;
 };
-}
-}
+}  // namespace asio
+}  // namespace os5000
 
 #endif

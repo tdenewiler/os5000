@@ -30,13 +30,13 @@ CCCC_FileExt@.j@java@
 CCCC_FileExt@.jav@java@
 CCCC_FileExt@.java@java@
 CCCC_MetTmnt@8.3@999999.000000@999999.000000@0@8@3@General format for fixed precision 3 d.p.@
-CCCC_MetTmnt@CBO@12.000000@30.000000@0@6@0@Coupling between objects@
+CCCC_MetTmnt@CBO@13.000000@30.000000@0@6@0@Coupling between objects@
 CCCC_MetTmnt@COM@999999.000000@999999.000000@0@6@0@Comment lines@
 CCCC_MetTmnt@COMper@999999.000000@999999.000000@0@6@3@Comment lines (averaged)@
 CCCC_MetTmnt@DIT@3.000000@6.000000@0@6@0@Depth of Inheritance Tree@
-CCCC_MetTmnt@FI@12.000000@20.000000@0@6@0@Fan in (overall)@
-CCCC_MetTmnt@FIc@10.000000@12.000000@0@6@0@Fan in (concrete uses only)@
-CCCC_MetTmnt@FIv@10.000000@12.000000@0@6@0@Fan in (visible uses only)@
+CCCC_MetTmnt@FI@13.000000@20.000000@0@6@0@Fan in (overall)@
+CCCC_MetTmnt@FIc@11.000000@12.000000@0@6@0@Fan in (concrete uses only)@
+CCCC_MetTmnt@FIv@13.000000@15.000000@0@6@0@Fan in (visible uses only)@
 CCCC_MetTmnt@FO@12.000000@20.000000@0@6@0@Fan out (overall)@
 CCCC_MetTmnt@FOc@6.000000@12.000000@0@6@0@Fan out (concrete uses only)@
 CCCC_MetTmnt@FOv@6.000000@12.000000@0@6@0@Fan out (visible uses only)@
