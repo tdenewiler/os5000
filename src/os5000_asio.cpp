@@ -39,7 +39,7 @@ bool OS5000Serial::connect(const std::string &port, const int baud)
 
   // Ignoring flawfinder warning due to lack of better alternative open method.
   port_->open(port, error_code);  // NOLINT
-  if (error_code != 0)
+  if (error_code.value() != 0)
   {
     ROS_ERROR_STREAM("Could not open port with ASIO. Error = " << error_code);
     return false;
