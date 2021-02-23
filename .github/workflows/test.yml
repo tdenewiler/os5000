@@ -96,11 +96,13 @@ jobs:
         run: |
           statick . --check --profile documentation.yaml
 
-      - name: Build and Statick
+      - name: Build
         run: |
           . /opt/ros/$ROS_DISTRO/setup.bash
           catkin build
+
+      - name: Statick
+        run: |
           . devel/setup.bash
-          mkdir statick-output
-          cp src/os5000/statick_config/rsc/_clang-format ~
-          statick src/os5000 --output-directory statick-output --check --user-paths src/os5000/statick_config
+          cp src/os5000/statick_config/rsc/.clang-format ~
+          statick src/os5000 --output-directory statick-output --check --user-paths src/os5000/statick_config --log info
